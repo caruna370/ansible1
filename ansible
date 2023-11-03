@@ -264,6 +264,43 @@ HISTORY:
    85  history
 
 =====================================================
+CLUSTER : GROUP OF SERVERS
+HOMOGENIUS CLUSTER	: ALL SERVERS OS FLAVOURS ARE SAME
+HETROGENIUS CLUSTER	: ALL SERVERS OS FLAVOURS ARE DIFFERENT
+
+CONDITIONS: used when we have hetrogenius clusters.
+
+- hosts: all
+  tasks:
+    - name: install apache on redhat
+      yum: name=httpd state=present
+      when: ansible_os_family == "RedHat"
+
+    - name: install apache on ubuntu
+      apt: name=apache2 state=present
+      when: ansible_os_family == "Debian"
+
+
+- hosts: all
+  tasks:
+    - name: install tree on RedHat
+      yum: name=tree state=present
+      when: ansible_os_family == "RedHat"
+
+    - name: install tree on Ubuntu
+      apt: name=tree state=present
+      when: ansible_os_family == "Debian"
+
+
+
+ansible dev[0] -m setup
+ansible dev[0] -m setup | grep family -i
+ansible dev[0] -m setup | grep cpus -i
+ansible dev[0] -m setup | grep mem -i
+
+
+
+
 SHELL VS COMMAND VS RAW
 
 - hosts: all
